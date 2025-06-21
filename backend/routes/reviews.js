@@ -15,26 +15,52 @@ router.get('/:movieId', async (req, res) => {
 });
 
 // Post a review for a movie
+// router.post('/', async (req, res) => {
+//   const { movieId, username, rating, comment } = req.body;
+// console.log('Received review:', req.body);
+//   if (!movieId || !username || !rating || !comment) {
+//     return res.status(400).json({ message: 'All fields are required' });
+//   }
+
+//   const review = new Review({
+//     movieId,
+//     username,
+//     rating,
+//     comment
+//   });
+
+//   try {
+//     const newReview = await review.save();
+//     res.status(201).json(newReview);
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// });
 router.post('/', async (req, res) => {
   const { movieId, username, rating, comment } = req.body;
-console.log('Received review:', req.body);
+  console.log('Received review:', req.body);
+
   if (!movieId || !username || !rating || !comment) {
+    console.log(' Missing fields:', { movieId, username, rating, comment });
     return res.status(400).json({ message: 'All fields are required' });
   }
 
-  const review = new Review({
-    movieId,
-    username,
-    rating,
-    comment
-  });
-
   try {
+    const review = new Review({
+      movieId,
+      username,
+      rating: parseInt(rating), // Ensure this is stored as Number
+      comment
+    });
+
     const newReview = await review.save();
+    console.log(" Review saved to MongoDB:", newReview);
     res.status(201).json(newReview);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    console.error(' Error saving review to MongoDB:', err);
+    res.status(500).json({ message: err.message });
   }
 });
+
 
 module.exports = router;
