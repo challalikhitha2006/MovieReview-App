@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Movie App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="main"></main>
+
+  <div id="reviewModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeReviewModal()">&times;</span>
+      <h2>Submit Review</h2>
+      <input type="text" id="username" placeholder="Your Name"><br>
+      <textarea id="comment" placeholder="Your Review"></textarea><br>
+      <input type="number" id="rating" min="1" max="10" placeholder="Rating (1-10)"><br>
+      <button onclick="submitReview()">Submit</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
