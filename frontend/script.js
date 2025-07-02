@@ -96,68 +96,6 @@ function fetchDetails(movies) {
 }
 
 
-//   function showMovie(movie) {
-//   const movieEl = document.createElement('div');
-//   fetch(`http://localhost:5000/api/reviews/${movie.imdbID}`)
-//   .then(res => res.json())
-//   .then(reviews => {
-//     const container = document.getElementById(`reviews-${movie.imdbID}`);
-//     reviews.forEach(r => {
-//       const reviewHTML = `
-//         <div class="review-entry">
-//           <strong>${r.username}</strong> (${r.rating}/10):<br/>
-//           <p>${r.comment}</p>
-//           <hr/>
-//         </div>
-//       `;
-//       container.innerHTML += reviewHTML;
-//     });
-//   });
-//   movieEl.classList.add('movie');
-
-//   movieEl.innerHTML = `
-//     <img src="${movie.Poster !== "N/A" ? movie.Poster : 'https://via.placeholder.com/300x450'}" alt="${movie.Title}">
-//     <div class="movie-info">
-//       <h3>${movie.Title}</h3>
-//       <span class="${getRatingColor(movie.imdbRating)}">${movie.imdbRating}</span>
-//     </div>
-//     <div class="overview">
-//       <h3>Overview</h3>
-//       ${movie.Plot}
-//       <button class="know-more review-btn" data-id="${movie.imdbID}" data-title="${movie.Title}">Add Review</button>
-//       <div class="review-section" id="reviews-${movie.imdbID}"></div>
-//     </div>
-//   `;
-
-//   main.appendChild(movieEl);
-//   setTimeout(() => {
-//   loadReviews(movie.imdbID);
-// }, 0);
-// }
-// function showMovie(movie) {
-//   const movieEl = document.createElement('div');
-//   movieEl.classList.add('movie');
-
-//   movieEl.innerHTML = `
-//     <img src="${movie.Poster !== "N/A" ? movie.Poster : 'https://via.placeholder.com/300x450'}" alt="${movie.Title}">
-//     <div class="movie-info">
-//       <h3>${movie.Title}</h3>
-//       <span class="${getRatingColor(movie.imdbRating)}">${movie.imdbRating}</span>
-//     </div>
-//     <div class="overview">
-//       <h3>Overview</h3>
-//       ${movie.Plot}
-//       <button class="know-more review-btn" data-id="${movie.imdbID}" data-title="${movie.Title}">Add Review</button>
-//       <div class="review-section" id="reviews-${movie.imdbID}"></div>
-//     </div>
-//   `;
-
-//   main.appendChild(movieEl); // Add to DOM first
-//  setTimeout(() => {
-//   loadReviews(movie.imdbID);
-// }, 0);
- 
-// }
 function showMovie(movie) {
   const movieEl = document.createElement('div');
   movieEl.classList.add('movie');
@@ -174,24 +112,20 @@ function showMovie(movie) {
       <h3>Overview</h3>
       ${movie.Plot}
       <button class="know-more review-btn" data-id="${movie.imdbID}" data-title="${movie.Title}">Add Review</button>
-      <div class="review-section" id="${reviewSectionId}"></div>
     </div>
+
+      <div class="review-section" id="${reviewSectionId}"></div>
   `;
 
   main.appendChild(movieEl);
 
-  // Add review modal open listener
+  
   const reviewBtn = movieEl.querySelector('.review-btn');
   reviewBtn.addEventListener('click', () => {
-    //  Set movieId in hidden input for form
     const movieIdInput = document.getElementById('movieId');
     movieIdInput.value = movie.imdbID;
-
-    // Optional: Update modal title to show movie title
     const modalTitle = document.querySelector(".review-modal-content h2");
     modalTitle.textContent = `Submit Your Review for "${movie.Title}"`;
-
-    //  Show the modal
     const modal = document.getElementById('reviewModal');
     modal.style.display = 'block';
   });
@@ -199,51 +133,6 @@ function showMovie(movie) {
     loadReviews(movie.imdbID);
   });
 }
-
-
-// function showMovie(movie) {
-//   const movieEl = document.createElement('div');
-//   movieEl.classList.add('movie');
-
-//   movieEl.innerHTML = `
-//     <img src="${movie.Poster !== "N/A" ? movie.Poster : 'https://via.placeholder.com/300x450'}" alt="${movie.Title}">
-//     <div class="movie-info">
-//       <h3>${movie.Title}</h3>
-//       <span class="${getRatingColor(movie.imdbRating)}">${movie.imdbRating}</span>
-//     </div>
-//     <div class="overview">
-//       <h3>Overview</h3>
-//       ${movie.Plot}
-//       <button class="know-more review-btn" data-id="${movie.imdbID}" data-title="${movie.Title}">Add Review</button>
-//       <div class="review-section" id="reviews-${movie.imdbID}"></div>
-//     </div>
-//   `;
-
-  
-//   main.appendChild(movieEl);
-
-// }
-
-// function loadReviews(movieId) {
-//   fetch(`http://localhost:5000/api/reviews/${movieId}`)
-//     .then(res => res.json())
-//     .then(data => {
-//       const container = document.getElementById(`reviews-${movieId}`);
-//       if(!container) return;
-//       container.innerHTML = data.map(r => `
-//         <div class="review-entry">
-//           <strong>${r.username}</strong> (${r.rating}/10):<br/>
-//           <p>${r.comment}</p>
-//           <hr/>
-//         </div>
-//       `).join('');
-//     })
-//     .catch(err => {
-//       console.error('Error loading reviews:', err);
-//       const container = document.getElementById(`reviews-${movieId}`);
-//       container.innerHTML = '<p>Failed to load reviews.</p>';
-//     });
-// }
 function loadReviews(movieId) {
   const container = document.getElementById(`reviews-${movieId}`);
   if (!container) {
@@ -261,7 +150,7 @@ function loadReviews(movieId) {
         return;
       }
 
-      container.innerHTML = ''; // Clear fallback
+      container.innerHTML = ''; 
 
       reviews.forEach(r => {
         const div = document.createElement('div');
@@ -280,19 +169,12 @@ function loadReviews(movieId) {
     });
 }
 
-
-
-
-
 function getRatingColor(vote) {
   if (vote >= 8) return 'green';
   else if (vote >= 5) return 'orange';
   else return 'red';
 }
-
-// Initial load
 getMovies();
-// Handle Review Modal
 const modal = document.getElementById("reviewModal");
 const span = document.querySelector(".close-review");
 const formReview = document.getElementById("reviewForm");
@@ -312,38 +194,7 @@ span.onclick = () => (modal.style.display = "none");
 window.onclick = (e) => {
   if (e.target == modal) modal.style.display = "none";
 };
-// formReview.addEventListener("submit", (e) => {
-//   e.preventDefault();
-//   const movieId = document.getElementById("movieId").value;
-//   const username = document.getElementById("username").value.trim();
-//   const rating = document.getElementById("rating").value;
-//   const comment = document.getElementById("comment").value.trim();
 
-//   if (!username || !rating || !comment) return;
-
-//   const reviewData = {
-//     movieId,
-//     username,
-//     rating,
-//     comment
-//   };
-
-//   fetch('http://localhost:5000/api/reviews', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(reviewData),
-//   })
-//   .then(res => res.json())
-//   .then(data => {
-//     console.log('Review saved:', data);
-//     loadReviews(movieId); // Load updated reviews from backend
-//     modal.style.display = "none";
-//     formReview.reset();
-//   })
-//   .catch(err => console.error('Error saving review:', err));
-// });
 formReview.addEventListener("submit", async (e) => {
   e.preventDefault();
   const movieId = document.getElementById("movieId").value;
@@ -362,7 +213,7 @@ formReview.addEventListener("submit", async (e) => {
 
     if (!res.ok) throw new Error("Failed to submit review");
 
-    await loadReviews(movieId); // Wait until reviews are reloaded
+    await loadReviews(movieId); 
     modal.style.display = "none";
     formReview.reset();
   } catch (err) {
@@ -370,41 +221,12 @@ formReview.addEventListener("submit", async (e) => {
     alert("Failed to submit review. Please try again.");
   }
 });
-
-
-// formReview.addEventListener("submit", (e) => {
-//   e.preventDefault();
-//   const movieId = document.getElementById("movieId").value;
-//   const username = document.getElementById("username").value.trim();
-//   const rating = document.getElementById("rating").value;
-//   const comment = document.getElementById("comment").value.trim();
-
-//   if (!username || !rating || !comment) return;
-
-//   const reviewHTML = `
-//     <div class="review-entry">
-//       <strong>${username}</strong> (${rating}/10):<br/>
-//       <p>${comment}</p>
-//       <hr/>
-//     </div>
-//   `;
-
-//   const container = document.getElementById(`reviews-${movieId}`);
-//   container.innerHTML += reviewHTML;
-
-//   modal.style.display = "none";
-//   formReview.reset();
-// });
 document.addEventListener('click', function (e) {
   if (e.target.classList.contains('review-btn')) {
     const imdbID = e.target.dataset.id;
     const modal = document.getElementById('reviewModal');
     const movieIdInput = document.getElementById('movieId');
-
-    // Set the hidden input value to the current movie ID
     movieIdInput.value = imdbID;
-
-    // Show the modal
     modal.style.display = 'block';
   }
 });
