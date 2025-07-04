@@ -1,5 +1,8 @@
 const API_KEY = 'c8535c53';
 const BASE_URL = `https://www.omdbapi.com/?apikey=${API_KEY}`;
+const BACKEND = window.location.hostname.includes("localhost")
+  ? "http://localhost:5000"
+  : "https://moviereview-appnew.onrender.com";
 
 
 const main = document.getElementById('main');
@@ -67,7 +70,7 @@ function highlightTag() {
 
 function getMovies() {
   main.innerHTML = '';
-  const url = `${BASE_URL}&s=${currentQuery || 'Avengers'}&page=${currentPage}`;
+  const url = `${BASE_URL}&s=${currentQuery || 'Avengers' }&page=${currentPage}`;
 
   fetch(url)
     .then(res => res.json())
@@ -142,7 +145,7 @@ function loadReviews(movieId) {
 
   container.innerHTML = '<p>Loading reviews...</p>';
 
-  fetch(`http://localhost:5000/api/reviews/${movieId}`)
+  fetch(`${BACKEND}/api/reviews/${movieId}`)
     .then(res => res.json())
     .then(reviews => {
       if (!Array.isArray(reviews) || reviews.length === 0) {
@@ -205,7 +208,7 @@ formReview.addEventListener("submit", async (e) => {
   if (!username || !rating || !comment || !movieId) return;
 
   try {
-    const res = await fetch("http://localhost:5000/api/reviews", {
+    const res = await   fetch(`${BACKEND}/api/reviews`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ movieId, username, rating, comment })
